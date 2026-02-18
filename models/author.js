@@ -1,7 +1,7 @@
 const authors = [
-    {firstName: "James S.A.", lastName: "Corey"}, 
-    {firstName: "Craig", lastName: "Alanson"}, 
-    {firstName: "Cixin", lastName: "Liu"}
+    {firstName: "Elif", lastName: "Shafak"}, 
+    {firstName: "Vaishnavi", lastName: "Patel"}, 
+    {firstName: "Kevin", lastName: "Wilson"}
 ]
 
 // this pushes the author received into the list of known authors. 

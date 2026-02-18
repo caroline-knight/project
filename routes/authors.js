@@ -9,7 +9,7 @@ router.get('/', function(_req, res, _next) {
   res.render('authors/index', {title: 'bookedin || authors', authors: authors});
 });
 
-// connect to author button form
+// connect to author input form
 router.get('/form', async (_req, res, _next) => {
   res.render('authors/form', {title: 'bookedin || authors'});
 });
