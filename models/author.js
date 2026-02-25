@@ -4,9 +4,24 @@ const authors = [
     {firstName: "Kevin", lastName: "Wilson"}
 ]
 
-// this pushes the author received into the list of known authors. 
+exports.all = authors;
+
+exports.upsert = (author) => {
+  if (author.id) {
+    exports.update (author);
+  } else {
+    exports.add(author);
+  }
+}
+
 exports.add = (author) => {
   authors.push(author);
 }
 
-exports.all = authors;
+exports.update = (author) => {
+  author.id = parseInt(author.id);
+  authors[author.id] = author;
+}
+exports.get = (idx) => {
+  return authors[idx];
+}

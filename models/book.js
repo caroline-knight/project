@@ -4,8 +4,25 @@ const books = [
     {title: "Nothing to See Here", publicationYear: "2019"}
 ]
 
+exports.all = books;
+
+exports.upsert = (book) => {
+  if (book.id) {
+    exports.update (book);
+  } else {
+    exports.add(book);
+  }
+}
+
 exports.add = (book) => {
   books.push(book);
 }
 
-exports.all = books;
+exports.update = (book) => {
+  book.id = parseInt(book.id);
+  books[book.id] = book;
+}
+
+exports.get = (idx) => {
+  return books[idx];
+}

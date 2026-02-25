@@ -29,7 +29,7 @@ app.use((_req, res) => {
 app.use((err, _req, res, _next) => {
   console.error(err.message);
   res.status(500);
-  res.send("<h1>500 - server error</h1>");
+  res.send("<h1>500 server error - congratulations it's a you problem <3</h1>");
 })
 
 // makes app listen to the port

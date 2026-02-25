@@ -4,20 +4,27 @@ const router = express.Router();
 const Author = require('../models/author');
 
 // connect to author model
-router.get('/', function(_req, res, _next) {
+router.get('/', function(req, res, next) {
   const authors = Author.all
   res.render('authors/index', {title: 'bookedin || authors', authors: authors});
 });
 
 // connect to author input form
-router.get('/form', async (_req, res, _next) => {
+router.get('/form', async (req, res, next) => {
   res.render('authors/form', {title: 'bookedin || authors'});
 });
 
-// since req.body is an object, it must be made into a string to make it printable. this calls the model's 'add' method to pass that data along. redirects back to authors index page. 
-router.post('/create', async (_req, res, _next) => {
+// to handle the edit route
+router.get('/edit', async (req, res, next) => {
+  let authorIndex = req.query.id;
+  let author = Author.get(authorIndex);
+  res.render('authors/form', {title: 'bookedin || authors', author: author, authorIndex: authorIndex });
+});
+
+// makes req.body into string because it is an object and needs to be printable. calls the model's 'add' method. redirects back to authors index page. we replaced create with upsert. 
+router.post('/upsert', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body))
-  Author.add(req.body);
+  Author.upsert(req.body);
   res.redirect(303, '/authors')
 });
 
