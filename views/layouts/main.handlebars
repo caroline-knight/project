@@ -4,6 +4,11 @@
     <title>{{title}}</title>
   </head>
   <body>
+    {{#if flash}}
+      <div>
+        <strong>{{flash.intro}}</strong> {{{flash.message}}}
+      </div>
+    {{/if}}
     <nav>
       <ul>
         <li><a href="/">home</a></li>
@@ -12,6 +17,6 @@
         <li><a href="/genres">genres</a></li>
       </ul>
     </nav>
-    {{{body}}}
-  </body>
+{{{body}}}
+</body>
 </html>

@@ -23,9 +23,15 @@ router.get('/edit', async (req, res, next) => {
 
 // makes req.body into string because it is an object and needs to be printable. calls the model's 'add' method. redirects back to authors index page. we replaced create with upsert. 
 router.post('/upsert', async (req, res, next) => {
-  console.log('body: ' + JSON.stringify(req.body))
+  console.log('body: ' + JSON.stringify(req.body));
   Author.upsert(req.body);
-  res.redirect(303, '/authors')
+  let createdOrupdated = req.body.id ? 'updated' : 'created';
+  req.session.flash = {
+    type: 'info',
+    intro: 'success!',
+    message: `this author has been ${createdOrupdated}!`,
+  };
+  res.redirect(303, '/authors');
 });
 
 module.exports = router;
