@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
 }); 
 
 router.get('/about', function(req, res, next) {
-    res.render('about');
-})
+    res.render('about', {title: 'bookedin');
+});
 
 module.exports = router; // JS requires exporting what is used in the other files.
