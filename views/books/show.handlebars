@@ -1,6 +1,6 @@
 <h1>{{book.title}}</h1>
 
-{{!-- the code below checks if we have an author set then loops over the authors and makes them into a comma separated list. {{#unless @last}} makes sure we don't add a comma after the last author. --}}
+{{!-- the code below checks if we have an author set then loops over the authors and makes them into a comma separated list. {{#unless last}} makes sure we don't add a comma after the last author. --}}
 
 {{#if authors}}
 <p>written by {{#each authors}}{{this.firstName}} {{this.lastName}}{{#unless @last}}, {{/unless}}{{/each}}</p>
