@@ -8,19 +8,6 @@ const books = [
 
 exports.all = books;
 
-exports.add = (book) => {
-  books.push(book);
-};
-
-exports.get = (idx) => {
-  return books[idx];
-};
-
-exports.update = (book) => {
-  book.id = parseInt(book.id);
-  books[book.id] = book;
-};
-
 exports.upsert = (book) => {
   if (book.authorIds && ! Array.isArray(book.authorIds)) { 
       book.authorIds = [book.authorIds];
@@ -33,3 +20,16 @@ exports.upsert = (book) => {
 };
 
 // ^^now when a value is submitted it will always be an array. this is to handle cases of multiple authors. it checks if the authorIds are set and if they are, if it's a list. if it's not a list, we will make it a list containing just the existing value.
+
+exports.add = (book) => {
+  books.push(book);
+};
+
+exports.update = (book) => {
+  book.id = parseInt(book.id);
+  books[book.id] = book;
+};
+
+exports.get = (idx) => {
+  return books[idx];
+};
