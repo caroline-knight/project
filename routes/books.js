@@ -50,37 +50,3 @@ router.get('/show/:id', async (req, res, next) => {
   }});
 
 module.exports = router;
-
-
-
-// draft code:
-    // templateVars.comments = await Comment.AllForBook(templateVars.book);
-    // templateVars.authors = await Author.allForBook(templateVars.book);
-    // if (templateVars.book.genreId) {
-    //   templateVars['genre'] = await Genre.get(templateVars.book.genreId);
-    // }
-    // if (req.session.currentUser) {
-    //   templateVars['bookUser'] = await BookUser.get(templateVars.book, req.session.currentUser);
-    // }
-
-    // let templateVars = {
-    //   title: 'bookedin' || 'books',
-    //   book: Book.get(req.params.id),
-    //   bookIndex = req.params.id
-    // }
-    // if ("authorId" in templateVars.book) { 
-    //     templateVars['author'] = Author.get(templateVars.book.authorId);
-    // }
-    // res.render('books/show', templateVars);
-
-    // let bookIndex = req.params.id;
-    // let book = Book.get(bookIndex);
-    // let author = author.get(book.authorId);
-    // let authors = []
-    // if (book.authorIds) {
-    //   authors = book.authorIds.map(author.get)
-    // }
-    // if (templateVars.book.authorIds) {
-    //     templateVars['authors'] = templateVars.book.authorIds.map((authorId) => author.get(authorId))
-    // }
-    // res.render('books/show', { title: 'bookedin' || 'book', book: book, bookIndex: bookIndex, author: author});
