@@ -67,14 +67,14 @@ app.use('/genres', genresRouter);
 app.use((_req, res) => {
   res.status(404);
   res.send("<h1>404 - page not found on server</h1>");
-})
+});
 
 // 500 page
 app.use((err, _req, res, _next) => {
   console.error(err.message);
   res.status(500);
   res.send("<h1>500 server error</h1>");
-})
+});
 
 // makes app listen to the port
 app.listen(port, () => console.log(
