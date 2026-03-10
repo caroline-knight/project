@@ -7,7 +7,7 @@
 {{/if}}
 
 {{#if genre}}
-<p>genre: {{#each genres}}{{this.genre}}{{#unless @last}}, {{/unless}}{{/each}}</p>
+<p>genre: {{genre.genreName}}</p>
 {{/if}}
 
 <p>originally published in {{book.publicationYear}}</p>
