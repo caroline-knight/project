@@ -32,7 +32,7 @@ router.post('/upsert', async (req, res, next) => {
 router.get('/edit', async (req, res, next) => {
   let bookIndex = req.query.id;
   let book = Book.get(bookIndex);
-  res.render('books/form', {title: 'bookedin || books', book: book, bookIndex: bookIndex });
+  res.render('books/form', {title: 'bookedin || books', book: book, bookIndex: bookIndex, authors: Author.all, genres: Genre.all });
 });
 
 router.get('/show/:id', async (req, res, next) => {
