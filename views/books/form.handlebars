@@ -42,7 +42,7 @@ also, @root is used because an 'each' loop is being used and we have to access t
       <option disabled value> select genre </option>
       {{#each genres}}
         <option value="{{@index}}" {{#if (and @root.book (eq @root.book.genreId @index))}}selected{{/if}}>
-          {{this.genre}}
+          {{this.genreName}}
         </option>
       {{/each}}
     </select>
