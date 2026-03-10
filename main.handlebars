@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{title}}</title>
+  </head>
+  <body>
+    {{!-- if means to only do it if we have a flash message--}}
+    {{#if flash}}
+      <div>
+        {{!-- this displays the flash message contents --}}
+        <strong>{{flash.intro}}</strong> {{{flash.message}}}
+      </div>
+    {{/if}}
+{{!-- navigation menu --}}
+    <nav>
+      <ul>
+        <li><a href="/">home</a></li>
+        <li><a href="/authors">authors</a></li>
+        <li><a href="/books">books</a></li>
+        <li><a href="/genres">genres</a></li>
+      </ul>
+    </nav>
+{{{body}}} 
+{{!-- tells handlebars to include the other content here --}}
+</body>
+</html>
