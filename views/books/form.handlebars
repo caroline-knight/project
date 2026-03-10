@@ -1,26 +1,28 @@
 <h1>books form</h1>
 <form action="/books/upsert" role="form" method="post">
 <input type="hidden" name="id" value="{{bookIndex}}">
-
-
 {{#if book}}
 <div>
     <h2>{{book.title}}</h2>
     <input type="hidden" name="id" value="{{bookIndex}}">
 </div>
 {{/if}}
-
 <div>
     <label for="title">title</label>
     <input type="text" id="title" name="title" {{#if book}}value="{{book.title}}"{{/if}}>
 </div>
-
 <div>
     <label for="publication_year">publication year</label>
     <input type="number" step="1" placeholder="2000" id="publication_year" name="publicationYear" {{#if book}}value="{{book.publicationYear}}"{{/if}}>
 </div>
 
-
+{{!-- regarding the code below:
+this adjusts the form to use the helper functions in the bookedin.js file. the helper functions are used like function calls where the helper function is the function and the arguments are following the function name.
+line starting with <select: makes a basic select box. 
+line starting with <option disabled value: makes the first element a generic value.
+line starting with {{#each: makes an option for each of the authors.
+line starting with <option value: only stores the reference (the index), and will allow us to get the correct author when needed.
+--}}
 <div class="mb-3">
     <label for="authorIds">authors</label>
     <select multiple name="authorIds" multiple id="authorIds">
@@ -33,7 +35,5 @@
       {{/each}}
     </select>
 </div>
-
 <button type="submit" class="btn btn-primary">submit</button>
-
 </form>

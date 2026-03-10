@@ -5,7 +5,7 @@ const Author = require('../models/author');
 
 // connect to author model
 router.get('/', function(req, res, next) {
-  const authors = Author.all
+  const authors = Author.all;
   res.render('authors/index', {title: 'bookedin || authors', authors: authors});
 });
 
@@ -21,11 +21,11 @@ router.get('/edit', async (req, res, next) => {
   res.render('authors/form', {title: 'bookedin || authors', author: author, authorIndex: authorIndex });
 });
 
-// makes req.body into string because it is an object and needs to be printable. calls the model's 'add' method. redirects back to authors index page. we replaced create with upsert. 
+// makes req.body into string because it is an object and needs to be printable. calls the model's 'add' method. redirects back to authors index page. replaced create with upsert, which stands for UPdate or inSERT, since we use this to both update and create.
 router.post('/upsert', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body));
   Author.upsert(req.body);
-  let createdOrupdated = req.body.id ? 'updated' : 'created';
+  let createdOrupdated = "id" in req.body ? 'updated' : 'created';
   req.session.flash = {
     type: 'info',
     intro: 'success!',
