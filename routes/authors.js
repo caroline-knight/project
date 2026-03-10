@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const helpers = require('./helpers');
-
 // '..' is used because you have to go up a directory. in contrast, '.' references your current directory.
 const Author = require('../models/author'); 
 
