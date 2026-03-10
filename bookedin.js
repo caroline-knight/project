@@ -35,7 +35,7 @@ const authorsRouter = require('./routes/authors');
 const booksRouter = require('./routes/books');
 const genresRouter = require('./routes/genres');
 
-// framework setup/configuration
+// framework setup
 const app = express();
 const port = 3000;
 
@@ -50,9 +50,9 @@ app.use(expressSession({
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
 
-// session configuration - make it possible to use flash messages and pass them to the view. 
+// session configuration 
 app.use((req, res, next) => { // this code is executed for every request (no filter)
-  res.locals.flash = req.session.flash // sets a local variable (variables are passed to handlebars)
+  res.locals.flash = req.session.flash // makes it possible to use flash messages and pass them to the view. sets a local variable (variables are passed to handlebars)
   delete req.session.flash // removes the flash from the session cookie
   next() // continue handling the request
 });
