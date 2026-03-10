@@ -1,0 +1,20 @@
+<h1>authors form</h1>
+<form action="/authors/upsert" role="form" method="post">
+    {{#if author}}
+        <div>
+            <h2>{{author.firstName}} {{author.lastName}}</h2>
+            <input type="hidden" name="id" value="{{authorIndex}}">
+        </div>
+    {{/if}}
+    <div>
+        <label for="first_name">first name</label>
+        <input type="text" id="first_name" name="firstName" {{#if author}}value="{{author.firstName}}"{{/if}}> 
+        {{!-- this name attribute is used to set up what key is used to post the data --}}
+    </div>
+    <div>
+        <label for="last_name">last name</label>
+        <input type="text" id="last_name" name="lastName" {{#if author}}value="{{author.lastName}}"{{/if}}>
+    </div>
+
+<button type="submit" class="btn btn-primary">submit</button>
+</form>

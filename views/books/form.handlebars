@@ -1,0 +1,52 @@
+<h1>books form</h1>
+<form action="/books/upsert" role="form" method="post">
+<input type="hidden" name="id" value="{{bookIndex}}">
+{{#if book}}
+<div>
+    <h2>{{book.title}}</h2>
+    <input type="hidden" name="id" value="{{bookIndex}}">
+</div>
+{{/if}}
+<div>
+    <label for="title">title</label>
+    <input type="text" id="title" name="title" {{#if book}}value="{{book.title}}"{{/if}}>
+</div>
+<div>
+    <label for="publication_year">publication year</label>
+    <input type="number" step="1" placeholder="2000" id="publication_year" name="publicationYear" {{#if book}}value="{{book.publicationYear}}"{{/if}}>
+</div>
+
+{{!-- regarding the code below:
+overall, this adjusts the form to use the helper functions in the bookedin.js file. the helper functions are used like function calls where the helper function is the function and the arguments are following the function name.
+line starting with <select: makes a basic select box. 
+line starting with <option disabled value: makes the first element a generic value.
+line starting with {{#each: makes an option for each of the authors.
+line starting with <option value: only stores the reference (the index), and will allow us to get the correct author when needed.
+also, @root is used because an 'each' loop is being used and we have to access the original book in the template.
+--}}
+
+ <div class="mb-3">
+    <label for="authorIds">authors</label>
+    <select name="authorIds" id="authorIds">
+      <option disabled value> select author </option>
+      {{#each authors}}
+        <option value="{{@index}}" {{#if (and @root.book (eq @root.book.authorIds @index))}}selected{{/if}}>
+          {{this.firstName}} {{this.lastName}}
+        </option>
+      {{/each}}
+    </select>
+  </div>
+  <div>
+    <label for="genreIds">genres</label>
+    <select name="genreIds" id="genreIds">
+      <option disabled value> select genre </option>
+      {{#each genres}}
+        <option value="{{@index}}" {{#if (and @root.book (eq @root.book.genreId @index))}}selected{{/if}}>
+          {{this.genre}}
+        </option>
+      {{/each}}
+    </select>
+  </div>
+
+<button type="submit" class="btn btn-primary">submit</button>
+</form>
