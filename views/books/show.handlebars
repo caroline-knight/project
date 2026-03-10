@@ -6,8 +6,8 @@
 <p>written by {{#each authors}}{{this.firstName}} {{this.lastName}}{{#unless @last}}, {{/unless}}{{/each}}</p>
 {{/if}}
 
-{{#if genre}}
-<p>genre: {{genre.genreName}}</p>
+{{#if genres}}
+<p>genre: {{#each genres}}{{this.genreName}}{{#unless @last}}, {{/unless}}{{/each}}</p>
 {{/if}}
 
 <p>originally published in {{book.publicationYear}}</p>
