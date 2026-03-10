@@ -22,7 +22,7 @@ router.get('/edit', async (req, res, next) => {
   res.render('genres/form', {title: 'bookedin || genres', genre: genre, genreIndex: genreIndex });
 });
 
-// makes req.body into string because it is an object and needs to be printable. calls the model's 'add' method. redirects back to authors index page. replaced create with upsert, which stands for UPdate or inSERT, since we use this to both update and create.
+// deals with upsert route. makes req.body into string because it is an object and needs to be printable. calls the model's 'add' method. redirects back to authors index page. replaced create with upsert, which stands for UPdate or inSERT, since we use this to both update and create.
 router.post('/upsert', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body));
   Genre.upsert(req.body);
