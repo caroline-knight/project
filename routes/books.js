@@ -43,10 +43,10 @@ router.get('/show/:id', async (req, res, next) => {
     // statuses: BookUser.statuses
   }
   if (templateVars.book.authorIds) {
-    templateVars['authors'] = templateVars.book.authorIds.map((authorId) => Author.get(authorId))
+    templateVars['authors'] = templateVars.book.authorIds.map((authorIds) => Author.get(authorIds))
   }
-  if ("genreId" in templateVars.book) {
-    templateVars['genre'] = Genre.get(templateVars.book.genreId);
+  if ("genreIds" in templateVars.book) {
+    templateVars['genre'] = Genre.get(templateVars.book.genreIds);
   }});
 
 module.exports = router;
