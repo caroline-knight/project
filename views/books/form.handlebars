@@ -1,10 +1,10 @@
 <h1>books form</h1>
 <form action="/books/upsert" role="form" method="post">
-<input type="hidden" name="id" value="{{bookIndex}}">
+<input type="hidden" name="_csrf" value="{{_csrfToken}}">
 {{#if book}}
 <div>
     <h2>{{book.title}}</h2>
-    <input type="hidden" name="id" value="{{bookIndex}}">
+    <input type="hidden" name="id" value="{{bookId}}">
 </div>
 {{/if}}
 <div>

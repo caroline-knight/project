@@ -27,7 +27,7 @@ const handlebars = require('express-handlebars').create({
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
-// const csrf = require('csurf');
+const csrf = require('csurf');
 
 // application imports
 const indexRouter = require('./routes/index');
@@ -35,6 +35,7 @@ const authorsRouter = require('./routes/authors');
 const booksRouter = require('./routes/books');
 const genresRouter = require('./routes/genres');
 const usersRouter = require('./routes/users');
+const booksUsersRouter = require('./routes/books_users');
 
 // framework setup
 const app = express();
@@ -50,6 +51,13 @@ app.use(expressSession({
   saveUninitialized: false,
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // maximum age of cookie is 30 days
 }));
+
+// session configuration: csrf. note - this must go after the body-parser, cookie-parser, and express-session.
+app.use(csrf({ cookie: true }));
+app.use((req, res, next) => {
+  res.locals._csrfToken = req.csrfToken();
+  next();
+});
 
 // session configuration: passes flash messages to the view. sets a local variable to be passed to handlebars.
 app.use((req, res, next) => { 
@@ -70,6 +78,7 @@ app.use('/authors', authorsRouter);
 app.use('/books', booksRouter);
 app.use('/genres', genresRouter);
 app.use('/users', usersRouter);
+app.use('/books_users', booksUsersRouter);
 
 // 404 page
 app.use((req, res) => {

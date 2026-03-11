@@ -3,40 +3,34 @@
 <head>
     <title>{{title}}</title>
 </head>
-
 <body>
 
 {{!-- flash message --}}
     {{#if flash}}
       <div>
-        <strong>{{flash.intro}}</strong> {{{flash.message}}}
+        <strong>{{flash.intro}}</strong>{{{flash.message}}}
       </div>
     {{/if}}
 
 {{!-- navigation menu --}}
 <nav>
+    {{#if currentUser}}
+        <strong>welcome {{currentUser.name}}!</strong>
+        <li><a href="/users/profile">view your profile</a></li>
+            <form action="/users/logout" role="form" method="post">
+                <button type="submit" class="btn">logout</button>
+            </form>
+        {{else}}
+        <ul>
+            <li><a href="/users/register">register</a></li>
+            <li><a href="/users/login">login</a></li>
+        </ul>
+        {{/if}}
     <ul>
         <li><a href="/">home</a></li>
         <li><a href="/authors">authors</a></li>
         <li><a href="/books">books</a></li>
         <li><a href="/genres">genres</a></li>
-        {{!-- <li><a href="/users/register">register</a></li>
-        <li><a href="/users/login">login</a></li> --}}
-        {{#if currentUser}}
-        <strong>welcome {{currentUser.name}}!</strong>
-        <li>
-            <form action="/users/logout" role="form" method="post">
-                <button type="submit" class="btn">Logout</button>
-            </form>
-        </li>
-        {{else}}
-        <li>
-            <a href="/users/register">register</a>
-        </li>
-        <li>
-            <a href="/users/login">login</a>
-        </li>
-        {{/if}}
     </ul>
 </nav>
 

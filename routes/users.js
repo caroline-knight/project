@@ -2,31 +2,50 @@ const express = require('express'); // include express
 const router = express.Router(); // define the router
 
 const User = require('../models/user');
+const BookUser = require('../models/book_user');
+
 
 // registration route
+// can also create a separate 'helpers' file to make this function available. see week 7 slides.
+function IsLoggedIn(req, res) { // creates reusable function
+  if (req.session.currentUser) { // prevents logged in user from visiting the login and register pages.
+    req.session.flash = {
+      type: 'info',
+      intro: 'error',
+      message: 'you are already logged in',
+    };
+    res.redirect(303, '/'); // redirects user to home page
+    return true;
+  }
+  return false;
+};
 router.get('/register', async (req, res, next) => {
-  res.render('users/register', { title: 'bookedin || register'});
+  if (IsLoggedIn(req, res)) {
+    return // if we are logged in already just return out of this route
+  }
+  res.render('users/register', { title: 'bookedin || registration' });
 });
 
 router.post('/register', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body));
 
-  // enforce unique email
+
+// enforce unique email
   const user = User.getByEmail(req.body.email);
   if (user) {
     res.render('users/register', {
-      title: 'BookedIn || Login',
+      title: 'bookedin || login',
       flash: {
         type: 'danger',
-        intro: 'Error!',
-        message: `A user with this email already exists`}
+        intro: 'error',
+        message: `a user with this email already exists`}
     });
   } else { // flash message
     User.add(req.body);
     req.session.flash = {
       type: 'info',
       intro: 'success!',
-      message: `${req.body.name} has been created!`,
+      message: `${req.body.name} has been created.`,
   };
     res.redirect(303, '/');
   }
@@ -36,7 +55,6 @@ router.post('/register', async (req, res, next) => {
 router.get('/login', async (req, res, next) => {
   res.render('users/login', { title: 'bookedin || login'});
 });
-
 router.post('/login', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body));
   const user = User.login(req.body); 
@@ -45,7 +63,7 @@ router.post('/login', async (req, res, next) => {
     req.session.flash = { // sets flash message
       type: 'info',
       intro: 'success!',
-      message: 'welcome to bookedin!',
+      message: 'welcome to bookedin.',
     };
     res.redirect(303, '/'); // redirects logged in user to the homepage
   } else { // if no user found/login failed: 
@@ -54,7 +72,7 @@ router.post('/login', async (req, res, next) => {
       // we can set the flash directly as a local variable being passed to the view. 
       flash: {
         type: 'danger',
-        intro: 'error!',
+        intro: 'error',
         message: `user not found. reenter email and password or register as a new user.`}
     });
   }
@@ -69,6 +87,29 @@ router.post('/logout', async (req, res, next) => {
     message: 'you have logged out',
   };
   res.redirect(303, '/');
+});
+
+// profile route
+router.get('/profile', async (req, res, next) => {
+  if (! req.session.currentUser) {
+    req.session.flash = {
+      type: 'info',
+      intro: 'error',
+      message: 'you are not logged in yet'
+    };
+    res.redirect(303, '/');
+  }
+  if (helpers.isNotLoggedIn(req, res)) {
+    return
+  }
+  const booksUser = BookUser.AllForUser(req.session.currentUser.email);
+  booksUser.forEach((bookUser) => {
+    bookUser.book = Book.get(bookUser.bookId)
+  })
+  res.render('users/profile',
+    { title: 'bookedin || profile',
+      user: req.session.currentUser,
+      booksUser: booksUser });
 });
 
 module.exports = router;
