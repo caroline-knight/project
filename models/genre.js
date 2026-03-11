@@ -1,7 +1,7 @@
 const genres = [
-    {genre: "Fantasy"}, 
-    {genre: "Contemporary Fiction"}, 
-    {genre: "Historical Fiction"}
+    {genreName: "fantasy"}, 
+    {genreName: "contemporary fiction"}, 
+    {genreName: "historical fiction"}
 ]
 
 exports.all = genres;

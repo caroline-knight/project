@@ -34,8 +34,9 @@ const indexRouter = require('./routes/index');
 const authorsRouter = require('./routes/authors');
 const booksRouter = require('./routes/books');
 const genresRouter = require('./routes/genres');
+const usersRouter = require('./routes/users');
 
-// framework setup/configuration
+// framework setup
 const app = express();
 const port = 3000;
 
@@ -47,34 +48,41 @@ app.use(expressSession({
   secret: credentials.cookieSecret,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // maximum age of cookie is 30 days
 }));
 
-// session configuration - make it possible to use flash messages and pass them to the view. 
-app.use((req, res, next) => { // this code is executed for every request (no filter)
-  res.locals.flash = req.session.flash // sets a local variable (variables are passed to handlebars)
-  delete req.session.flash // removes the flash from the session cookie
-  next() // continue handling the request
+// session configuration: passes flash messages to the view. sets a local variable to be passed to handlebars.
+app.use((req, res, next) => { 
+  res.locals.flash = req.session.flash;
+  delete req.session.flash; // removes flash from session cookie
+  next(); // continue handling the request
 });
 
-// application setup. the first argument of app.use() is a string. it will use that string to determine when to use the function.
+// session configuration: makes current user available in views
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.currentUser;
+  next(); // continue handling the request
+});
+
+// application setup. the first argument of app.use() is a string that will determine when to use the function.
 app.use('/', indexRouter);
 app.use('/authors', authorsRouter);
 app.use('/books', booksRouter);
 app.use('/genres', genresRouter);
+app.use('/users', usersRouter);
 
 // 404 page
-app.use((_req, res) => {
+app.use((req, res) => {
   res.status(404);
   res.send("<h1>404 - page not found on server</h1>");
-})
+});
 
 // 500 page
-app.use((err, _req, res, _next) => {
+app.use((err, req, res, next) => {
   console.error(err.message);
   res.status(500);
   res.send("<h1>500 server error</h1>");
-})
+});
 
 // makes app listen to the port
 app.listen(port, () => console.log(

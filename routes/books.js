@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+// '..' is used because you have to go up a directory. in contrast, '.' references your current directory.
 const Book = require('../models/book');
+const Author = require('../models/author');
+const Genre = require ('../models/genre');
+
 
 router.get('/', function(req, res, next) {
   const books = Book.all;
@@ -9,9 +13,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/form', async (req, res, next) => {
-  res.render('books/form', {title: 'bookedin || books'});
+  res.render('books/form', {title: 'bookedin || books', authors: Author.all, genres: Genre.all});
 });
-
 
 router.post('/upsert', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body));
@@ -21,7 +24,7 @@ router.post('/upsert', async (req, res, next) => {
     // a flash message informs the user something happened after 'posting' data. create a flash by setting it on the session. we make it an object for future-proofing. for now we only use the message. more code was added to the bookedin.js file because to see the flash message we have to pass it to the front end. 
     type: 'info',
     intro: 'success!',
-    message: `this book has been ${createdOrupdated}!`,
+    message: `${req.body.title} has been ${createdOrupdated}!`,
   };
   res.redirect(303, '/books')
 });
@@ -35,16 +38,18 @@ router.get('/edit', async (req, res, next) => {
 router.get('/show/:id', async (req, res, next) => {
   var templateVars = {
     title: "bookedin || show",
-    book: await Book.get(req.params.id),
+    book: Book.get(req.params.id),
     bookIndex: req.params.id,
     // statuses: BookUser.statuses
   }
-  res.render('books/show', templateVars);
-});
+  if (templateVars.book.authorIds) {
+    templateVars['authors'] = templateVars.book.authorIds.map((authorId) => Author.get(authorId))
+  }
+  if ("genreIds" in templateVars.book) {
+    templateVars['genre'] = Genre.get(templateVars.book.genreIds);
+  }});
 
 module.exports = router;
-
-
 
 // draft code:
     // templateVars.comments = await Comment.AllForBook(templateVars.book);
