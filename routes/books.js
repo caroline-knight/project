@@ -6,7 +6,6 @@ const Book = require('../models/book');
 const Author = require('../models/author');
 const Genre = require ('../models/genre');
 
-
 router.get('/', function(req, res, next) {
   const books = Book.all;
   res.render('books/index', {title: 'bookedin || books', books: books});
@@ -24,22 +23,22 @@ router.post('/upsert', async (req, res, next) => {
     // a flash message informs the user something happened after 'posting' data. create a flash by setting it on the session. we make it an object for future-proofing. for now we only use the message. more code was added to the bookedin.js file because to see the flash message we have to pass it to the front end. 
     type: 'info',
     intro: 'success!',
-    message: `this book has been ${createdOrupdated}!`,
+    message: `${req.body.title} has been ${createdOrupdated}!`,
   };
   res.redirect(303, '/books')
 });
 
 router.get('/edit', async (req, res, next) => {
-  let bookIndex = req.query.id;
-  let book = Book.get(bookIndex);
-  res.render('books/form', {title: 'bookedin || books', book: book, bookIndex: bookIndex, authors: Author.all, genres: Genre.all });
+  let bookId = req.query.id;
+  let book = Book.get(bookId);
+  res.render('books/form', {title: 'bookedin || books', book: book, bookId: bookId });
 });
 
 router.get('/show/:id', async (req, res, next) => {
   var templateVars = {
     title: "bookedin || show",
     book: Book.get(req.params.id),
-    bookIndex: req.params.id,
+    bookId: req.params.id,
     // statuses: BookUser.statuses
   }
   if (templateVars.book.authorIds) {
@@ -48,5 +47,25 @@ router.get('/show/:id', async (req, res, next) => {
   if ("genreIds" in templateVars.book) {
     templateVars['genre'] = Genre.get(templateVars.book.genreIds);
   }});
+
+const BookUser = require('../models/book_user');
+router.get('/show/:id', async (req, res, next) => {
+  let templateVars = {
+    title: 'bookedin || books',
+    book: Book.get(req.params.id),
+    bookId: req.params.id,
+    statuses: BookUser.statuses
+  }
+  if (templateVars.book.authorIds) {
+    templateVars['authors'] = templateVars.book.authorIds.map((authorIds) => Author.get(authorIds));
+  }
+  if (templateVars.book.genreIds) {
+    templateVars['genre'] = Genre.get(templateVars.book.genreIds);
+  }
+  if (req.session.currentUser) {
+    templateVars['bookUser'] = BookUser.get(req.params.id, req.session.currentUser.email);
+  }
+  res.render('books/show', templateVars);
+});
 
 module.exports = router;
