@@ -1,10 +1,18 @@
+const db = require('../database');
+
+exports.all = async () => { // async because we are calling out to the database
+ const { rows } = await db.getPool().query("select * from authors order by id"); // get a db connection from the pool, query authors table, return camel cased data
+ return db.camelize(rows);
+};
+
 const authors = [
     {firstName: "Elif", lastName: "Shafak"}, 
     {firstName: "Vaishnavi", lastName: "Patel"}, 
     {firstName: "Kevin", lastName: "Wilson"}
 ]
 
-exports.all = authors;
+// exports.all = authors;
+
 
 exports.upsert = (author) => {
   if (author.id) {

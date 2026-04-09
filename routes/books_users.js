@@ -10,8 +10,8 @@ router.post('/upsert', async (req, res, next) => {
   BookUser.upsert(req.body);
   req.session.flash = {
     type: 'info',
-    intro: 'Success!',
-    message: 'Your status has been stored',
+    intro: 'success!',
+    message: 'your status has been stored',
   };
   res.redirect(303, redirect)
 });

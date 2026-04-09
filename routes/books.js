@@ -6,7 +6,6 @@ const Book = require('../models/book');
 const Author = require('../models/author');
 const Genre = require ('../models/genre');
 
-
 router.get('/', function(req, res, next) {
   const books = Book.all;
   res.render('books/index', {title: 'bookedin || books', books: books});

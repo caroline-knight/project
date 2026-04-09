@@ -1,19 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{title}}</title>
+    <link rel='stylesheet' href='/bootstrap/css/bootstrap.css' />
 </head>
-<body>
+<body data-bs-theme="dark">
 
 {{!-- flash message --}}
     {{#if flash}}
-      <div>
-        <strong>{{flash.intro}}</strong>{{{flash.message}}}
+      <div class="alert alert-dismissible fade show alert-{{flash.type}}" role="alert">
+        <strong>{{flash.intro}}</strong> {{{flash.message}}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
+
+{{!-- prior flash message before adding bootstrap: --}}
+      {{!-- <div>
+        <strong>{{flash.intro}}</strong>{{{flash.message}}}
+      </div> --}}
     {{/if}}
 
-{{!-- navigation menu --}}
-<nav>
+
+{{!-- navigation menu from bootstrap slides --}}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">BookedIn</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav me-auto mb-2 mb-1g-0">
+            <a class="nav-link" href="/genres">Genres</a>
+            <a class="nav-link" href="/authors">Authors</a>
+            <a class="nav-link" href="/books">Books</a>
+        </div>
+        <div class="d-flex">
+            <div class="navbar-nav me-auto mb-2 mb-1g-0">
+            {{#if currentUser}}
+              <a class="nav-link" href="/users/profile">Welcome {{currentUser.name}}</a>
+              <form action="/users/logout" role="form" method="post" class="d-flex">
+                <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+                <button class="btn btn-outline-success" type="submit">Logout</button>
+              </form>
+            {{else}}
+              <a class="nav-link" href="/users/register">Register</a>
+              <a class="nav-link" href="/users/login">Log in</a>
+            {{/if}}
+          </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+
+{{!-- navigation menu from class --}}
+{{!-- <nav>
     {{#if currentUser}}
         <strong>welcome {{currentUser.name}}!</strong>
         <li><a href="/users/profile">view your profile</a></li>
@@ -32,10 +75,17 @@
         <li><a href="/books">books</a></li>
         <li><a href="/genres">genres</a></li>
     </ul>
-</nav>
+</nav> --}}
 
+{{!-- the container will 'wrap' the content of the page to a proper width across the screen by adding some margin space to the sides of the content. the margin will change with the window size. --}}
+<div class="container">
 {{!-- tells handlebars to include the other content here --}}
 {{{body}}} 
+</div>
+
+
+{{!-- adding bootstrap assets. note: this is a 'front-end optimization' that ensures the JS is loaded and read at the end of the page so the page's content takes precedence to the JS --}}
+ <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

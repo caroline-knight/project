@@ -45,12 +45,16 @@ app.engine ('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser(credentials.cookieSecret));
+app.use
 app.use(expressSession({
   secret: credentials.cookieSecret,
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // maximum age of cookie is 30 days
 }));
+
+// adding routes for bootstrap
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 
 // session configuration: csrf. note - this must go after the body-parser, cookie-parser, and express-session.
 app.use(csrf({ cookie: true }));
