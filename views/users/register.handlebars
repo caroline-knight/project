@@ -1,0 +1,17 @@
+<h1>new user registration</h1>
+<form action="/users/register" role="form" method="post">
+<input type="hidden" name="_csrf" value="{{_csrfToken}}">
+<div>
+    <label for="name">name</label>
+    <input type="text" id="name" name="name">
+</div>
+<div>
+    <label for="email">email</label>
+    <input type="email" id="email" name="email">
+</div>
+<div>
+    <label for="password">password</label>
+    <input type="password" id="password" name="password">
+</div>
+<button type="submit" class="btn btn-primary">submit</button>
+</form>
