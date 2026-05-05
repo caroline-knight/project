@@ -1,11 +1,11 @@
 <h1>books</h1>
-<a href="/books/form">add a new book</a>
+<a href="/books/form">add a new location</a>
+
 <ul>
- {{!-- using built-in helper for each --}}
  {{#each books}}
    <li>
-    <a href="/books/show/{{@index}}">{{@index}} - {{this.title}} - {{this.publicationYear}}</a>
-    <a href="/books/edit?id={{@index}}">edit</a>
+    <a href="/books/show/{{this.id}}">{{this.id}} - {{this.title}} - {{this.publicationYear}} </a>
+    <a href="/books/edit?id={{this.id}}">edit</a>
   </li>
  {{/each}}
 </ul>

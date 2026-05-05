@@ -1,0 +1,10 @@
+<h1>comments</h1>
+<a href="/comments/form">add a new comment</a>
+<ul>
+ {{#each comments}}
+   <li>
+      <a href="/comments/form?id={{this.id}}">{{this.id}}: {{this.comment}}</a>
+      <a href="/comments/edit?id={{@index}}">edit</a>
+    </li>
+ {{/each}}
+</ul>

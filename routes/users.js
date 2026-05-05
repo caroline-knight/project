@@ -1,9 +1,8 @@
 const express = require('express'); // include express
 const router = express.Router(); // define the router
-
 const User = require('../models/user');
 const BookUser = require('../models/book_user');
-
+// const helpers = require('../helpers'); TK: THIS LINE MAKES MY APP CRASH
 
 // registration route
 // can also create a separate 'helpers' file to make this function available. see week 7 slides.
@@ -28,10 +27,12 @@ router.get('/register', async (req, res, next) => {
 
 router.post('/register', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body));
-
+  if (helpers.isLoggedIn (req, res)) {
+    return
+  }
 
 // enforce unique email
-  const user = User.getByEmail(req.body.email);
+  const user = await User.getByEmail(req.body.email);
   if (user) {
     res.render('users/register', {
       title: 'bookedin || login',
@@ -41,7 +42,7 @@ router.post('/register', async (req, res, next) => {
         message: `a user with this email already exists`}
     });
   } else { // flash message
-    User.add(req.body);
+    await User.add(req.body);
     req.session.flash = {
       type: 'info',
       intro: 'success!',
@@ -55,9 +56,10 @@ router.post('/register', async (req, res, next) => {
 router.get('/login', async (req, res, next) => {
   res.render('users/login', { title: 'bookedin || login'});
 });
+
 router.post('/login', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body));
-  const user = User.login(req.body); 
+  const user = await User.login(req.body); 
   if (user) { // if user is found, logs in the user
     req.session.currentUser = user // we store this user on the session 
     req.session.flash = { // sets flash message
@@ -102,10 +104,8 @@ router.get('/profile', async (req, res, next) => {
   if (helpers.isNotLoggedIn(req, res)) {
     return
   }
-  const booksUser = BookUser.AllForUser(req.session.currentUser.email);
-  booksUser.forEach((bookUser) => {
-    bookUser.book = Book.get(bookUser.bookId)
-  })
+  
+  const booksUser = await BookUser.AllForUser(req.session.currentUser);
   res.render('users/profile',
     { title: 'bookedin || profile',
       user: req.session.currentUser,
